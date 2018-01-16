@@ -192,19 +192,36 @@ add(...arr)
 - `new` creates brand new empty object, constructor function mutates it
 - share functions across all objects instead of duplicated code with prototypical inheritance
 ```javascript
-function Person(first, last) {
+// Pet
+function Pet(first, last) {
   this.first = first;
   this.last = last;
 }
-Person.prototype.fullName = function() {
+Pet.prototype.fullName = function() {
   return this.first + ' ' + this.last;
 };
-Person.prototype.fullNameReversed = function() {
+Pet.prototype.fullNameReversed = function() {
   return this.last + ', ' + this.first;
 };
-Person.prototype.toString = function() {
-  return '<Person: ' + this.fullName() + '>';
+Pet.prototype.toString = function() {
+  return '<Pet: ' + this.fullName() + '>';
 }
+
+// Dog
+function Dog(first, last) {
+  Pet.call(this, first, last);
+}
+Dog.prototype = new Pet();
+Dog.prototype.bark = function(){
+    alert("Woof!");
+}
+
+// Usage
+var pet1 = new Pet('Trudy', 'Bird');
+var pet2 = new Dog('Gabriella', 'Doggo');
+alert(pet2.toString()); // Outputs "<Pet: Gabriella Doggo>"
+pet2.bark(); // Outputs "Woof!"
+pet1.bark(); // Error
 ```
 
 ### Inner Functions
